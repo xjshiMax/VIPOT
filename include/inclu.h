@@ -1,5 +1,5 @@
 #pragma once
-#ifdef WIN32
+#ifndef WIN32
 	#include <sys/types.h>
 	#include <sys/socket.h>
 	#include <netinet/in.h>
@@ -15,5 +15,6 @@
 	#include <signal.h>
 	#include <sys/wait.h>
 	#include <sys/stat.h>
+#include <bits/types.h>
 #endif
 #include "stdio.h"

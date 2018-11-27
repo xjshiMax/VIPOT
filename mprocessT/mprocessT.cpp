@@ -1,7 +1,6 @@
 // mprocessT.cpp : 定义控制台应用程序的入口点。
 //
 
-#include "stdafx.h"
 
 
 #include "../include/inclu.h"
@@ -105,7 +104,9 @@ private:
 	char m_buf[ BUFFER_SIZE ];
 	/*标记读缓冲区中已经读入的客户数据最后一个字节的下一个位置*/
 	int m_read_idx;
-};int cgi_conn::m_epollfd = -1;/*主函数*/int main( int argc, char* argv[] )
+};
+int cgi_conn::m_epollfd = -1;/*主函数*/
+int main( int argc, char* argv[] )
 {
 	if( argc <= 2)
 	{
@@ -131,7 +132,7 @@ private:
 	ret = listen( listenfd, 5 );
 	assert(ret != -1);
 
-	processpool<cgi_conn>* pool = processpool<cgi_conn>::create( listenfd );
+	processpool<cgi_conn>* pool = processpool<cgi_conn>::create( listenfd,8 );
 	if( pool )
 	{
 		pool->run();

@@ -20,7 +20,7 @@ static void addfd(int epollfd,int fd)
 }
 static void removefd(int epollfd,int fd)
 {
-	epoll_ctl(epollfd,EPOLL_DEL,fd,0);
+	epoll_ctl(epollfd,EPOLL_CTL_DEL,fd,0);
 	close(fd);
 }
 static void sig_handler(int sig)
@@ -30,7 +30,7 @@ static void sig_handler(int sig)
 	send(sig_pipefd[1],(char*)&msg,1,0);
 	errno=save_errno;
 }
-static void addsig(int sig,void(handler)(int),bool restart=true)
+static void addsig(int sig,void(handler)(int),bool restart)
 {
 	struct sigaction sa;
 	memset(&sa,'\0',sizeof(sa));
@@ -41,6 +41,15 @@ static void addsig(int sig,void(handler)(int),bool restart=true)
 		sigfillset(&sa.sa_mask);
 		assert(sigaction(sig,&sa,NULL)!=-1);
 	}
+}
+template<typename T>
+processpool<T> *processpool<T>::create(int listenfd,int process_number)
+{
+	if(!m_instance)
+	{
+		m_instance = new processpool<T>(listenfd,process_number);
+	}
+	return m_instance;
 }
 template<typename T>
 processpool<T>::processpool(int listenfd,int process_number)
@@ -62,7 +71,7 @@ processpool<T>::processpool(int listenfd,int process_number)
 		}
 		else 
 		{
-			close(m_sub_process[i],m_pipefd[0]);
+			close(m_sub_process[i].m_pipefd[0]);
 			m_idx = i;
 			break;
 		}
@@ -195,7 +204,7 @@ void processpool<T>::run_child()
 	close(m_epollfd);
 }
 
-template <tyoename T>
+template <typename T>
 void processpool<T>::run_parent()
 {
 	setup_sig_pipe();
@@ -207,10 +216,10 @@ void processpool<T>::run_parent()
 	int ret=-1;
 	while(!m_stop)
 	{
-		number=epoll_wait(m_epollfd,events,MAX_EVNET_NUMBER,-1);
+		number=epoll_wait(m_epollfd,events,MAX_EVENT_NUMBER,-1);
 		if((number<0)&&(errno!=EINTR))
 		{
-			print("epoll failure\n");
+			printf("epoll failure\n");
 			break;
 		}
 		for(int i=0;i<number;i++)
@@ -234,7 +243,7 @@ void processpool<T>::run_parent()
 					break;
 				}
 				sub_process_counter=(i+1)%m_process_number;
-				send(m_sub_process[i],m_pipefd[0],(char*)&new_conn,sizeof(new_conn),0);
+				send(m_sub_process[i].m_pipefd[0],(char*)&new_conn,sizeof(new_conn),0);
 				printf("send request to child %d\n",i);
 
 			}
@@ -255,11 +264,11 @@ void processpool<T>::run_parent()
 						//则主进程关闭通信管道，并设置相应的m_pid为-1，以标记该子进程已经退出
 						switch(signals[i])
 						{
-						case SIGCGHLD:
+						case SIGCHLD:  //子进程结束信号
 							{
 								pid_t pid;
 								int stat;
-								while((pid=wait(-1,&stat,WNOHANG))>0)
+								while((pid=waitpid(-1,&stat,WNOHANG))>0)
 								{
 									for(int i=0;i<m_process_number;++i)
 									{
@@ -277,14 +286,15 @@ void processpool<T>::run_parent()
 								m_stop=true;
 								for(int i=0;i<m_process_number;++i)
 								{
-									if(m_sub_process[i].m_pid！=-1
+									if(m_sub_process[i].m_pid!=-1)
 									{
 										m_stop=false;
 									}
 								}
+							}
 								break;
-						case SIGTERM:
-						case SIGINT:
+						case SIGTERM:  //终止信号
+						case SIGINT:   //键盘终端（break建被按下）
 							{
 								//如果父进程接收到终止信号，那么就杀死所有子进程，并等待它通知子进程结束更好的
 								//方法是向父/子进程之间的通信管道发送特殊数据
@@ -294,7 +304,7 @@ void processpool<T>::run_parent()
 									int pid=m_sub_process[i].m_pid;
 									if(pid!=-1)
 									{
-										kill(pid !=-1);
+										kill(pid,SIGTERM);
 									}
 								}
 								break;
@@ -303,16 +313,17 @@ void processpool<T>::run_parent()
 							{
 								break;
 							}
-							}
-						}
-					}
-				}
+							
+						}//switch
+					}//for
+				}//else
+			}//else if
 			else
 			{
 				continue;
 			}
 			
-		}
-	}
+		}//for
+	}//while
 	close(m_epollfd);
 }
