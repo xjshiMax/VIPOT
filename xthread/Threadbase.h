@@ -8,7 +8,7 @@ public:
 	int join();				//等待线程结束
 	void destory();			//销毁线程所申请的资源
 
-	int get_thread_id(){return thr_id_;}
+	int get_thread_id(){return thr_id;}
 	int set_thread_id(unsigned long thrID){thr_id=thrID;}
 
 protected:
