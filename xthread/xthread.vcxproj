@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{82C079E9-C062-4BDC-8826-797E27960A2F}</ProjectGuid>
+    <ProjectGuid>{2C60A5CD-68E9-450B-B17C-652C71E930F2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>mprocessT</RootNamespace>
+    <RootNamespace>xthread</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -77,15 +77,13 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\inclu.h" />
-    <ClInclude Include="process.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Threadbase.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="mprocessT.cpp" />
-    <ClCompile Include="process.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="xthread.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
