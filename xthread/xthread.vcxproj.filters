@@ -27,12 +27,21 @@
     <ClInclude Include="Threadbase.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="testThread.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="xthread.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Threadbase.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="testThread.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

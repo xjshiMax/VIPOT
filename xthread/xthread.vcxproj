@@ -79,10 +79,13 @@
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="testThread.h" />
     <ClInclude Include="Threadbase.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="testThread.cpp" />
+    <ClCompile Include="Threadbase.cpp" />
     <ClCompile Include="xthread.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
