@@ -4,11 +4,19 @@
 #include <Windows.h>
 #endif
 #include "stdio.h"
+#include "timebase.hpp"
+#include "xAutoLock.hpp"
+//pthread_mutex_t zx;
+
 unsigned int __stdcall Threadbase::thread_proxy(void* arg)
 {
-	Threadbase* pbase=static_cast<Threadbase*> (arg);
+	pthread_mutex_t zx;
+	pthread_mutex_init(&zx,NULL);
+	xAutoLock antolock(zx);
+	timeobj proxylife;
+	Threadbase* pbase=reinterpret_cast<Threadbase*> (arg);
 	pbase->run();
-	Sleep(3000);
+	//Sleep(3000);
 	return 0;
 }
 
@@ -38,5 +46,5 @@ int Threadbase::join()
 }
 void Threadbase::destory()
 {
-
+	CloseHandle(reinterpret_cast<HANDLE>(thr_id));
 }

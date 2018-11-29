@@ -30,6 +30,12 @@
     <ClInclude Include="testThread.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="timebase.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="xAutoLock.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

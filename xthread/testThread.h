@@ -8,5 +8,7 @@ public:
 	~testThread(void);
 	void run();
 	//在run里调用需要测试的接口
+
+	static int testnum;
 };
 
