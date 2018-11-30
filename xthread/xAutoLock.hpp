@@ -9,26 +9,45 @@
 #else
 #include <pthread.h>
 #endif
-#define Mutex pthread_mutex_t
+#define Mutex xMutex
+class xMutex
+{
+	xMutex(){pthread_mutex_init(&m_lock,NULL);}
+	~xMutex(){pthread_mutex_destory(&m_lock);}
+	void lock()
+	{
+		pthread_mutex_lock(&m_lock);
+	}
+	void unlock()
+	{
+		pthread_mutex_unlock();
+	}
+	bool tryLock()
+	{
+		pthread_mutex_trylock(&m_lock);
+	}
+private:
+	mutable pthread_mutex_t m_lock;
+};
 class xAutoLock
 {
 public:
 	xAutoLock(Mutex* mutex):m_mutex(*mutex)
 	{
-		pthread_mutex_lock(&m_mutex);
-		//m_mutex.lock();
+		//pthread_mutex_lock(&m_mutex);
+		m_mutex.lock();
 		printf("lock\n");
 	}
 	xAutoLock(Mutex&mutex):m_mutex(mutex)
 	{
-		pthread_mutex_lock(&m_mutex);
-		//m_mutex.lock();
+		//pthread_mutex_lock(&m_mutex);
+		m_mutex.lock();
 		printf("lock\n");
 	}
 	~xAutoLock()
 	{
-		pthread_mutex_unlock(&m_mutex);
-		//m_mutex.unlock();
+		//pthread_mutex_unlock(&m_mutex);
+		m_mutex.unlock();
 		printf("unlock\n");
 	}
 private:
