@@ -10,7 +10,7 @@
 class timeobj
 {
 public:
-	timeobj(int timeval=objMS):m_val(timeval)
+	timeobj(char *pmsg="life:",int timeval=objMS):m_val(timeval),m_pmsg(pmsg)
 	{
 #ifdef WIN32
 		GetSystemTimeAsFileTime((LPFILETIME)&m_starttime);
@@ -20,7 +20,10 @@ public:
 	{
 		GetSystemTimeAsFileTime((LPFILETIME)&m_endtime);
 		m_lifeTime=m_endtime-m_starttime;
-		printf("the life cost(100ns):%f\n",m_lifeTime*1.0/m_val);
+		if(m_pmsg!=NULL)
+			printf("%s %f(ms)\n",m_pmsg,m_lifeTime*1.0/m_val);
+		else
+			printf("the life cost(100ns):%f\n",m_lifeTime*1.0/m_val);
 	}
 	LONGLONG startcount()
 	{
@@ -37,4 +40,5 @@ private:
 	LONGLONG m_endtime;
 	LONGLONG m_lifeTime;
 	int m_val;
+	char* m_pmsg;
 };

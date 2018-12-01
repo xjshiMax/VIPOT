@@ -1,6 +1,7 @@
 //2018-11-29
 //×Ô¶¯Ëø
 //pthread_mutex ºÍMutex
+#pragma once
 #ifdef WIN32
 #include "E:\workstation\Common\pthread\Pre-built.2\include\pthread.h"
 #pragma comment(lib,"E:\\workstation\\Common\\pthread\\Pre-built.2\\lib\\pthreadVC2.lib")
@@ -12,15 +13,16 @@
 #define Mutex xMutex
 class xMutex
 {
+public:
 	xMutex(){pthread_mutex_init(&m_lock,NULL);}
-	~xMutex(){pthread_mutex_destory(&m_lock);}
+	~xMutex(){pthread_mutex_destroy(&m_lock);}
 	void lock()
 	{
 		pthread_mutex_lock(&m_lock);
 	}
 	void unlock()
 	{
-		pthread_mutex_unlock();
+		pthread_mutex_unlock(&m_lock);
 	}
 	bool tryLock()
 	{
