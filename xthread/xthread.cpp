@@ -9,7 +9,8 @@
 #include "Threadbase.h"
 #include "xAutoLock.hpp"
 #include "timebase.hpp"
-#define Testtimes 300
+#include "xAtomicInt32.hpp"
+#define Testtimes 100
 unsigned int __stdcall Testsdk(void *m)
 {
 	testThread *threadgroup=new testThread[Testtimes];
@@ -20,14 +21,27 @@ unsigned int __stdcall Testsdk(void *m)
 	return 0;
 }
 xMutex mu;
-
+xAtomicInt32 i(0);
+//int i=0;
 unsigned int __stdcall Testfunc(void *m)
 {
- 	xAutoLock lock(mu);
+ 	//xAutoLock lock(mu);
 // 	timeobj Timecost("Testfunc");
-	int i=1;
-	printf("%d\n",i);
+	//i=i+1;
+	for(int temp=0;temp<10000;temp++)
+		i.inc();
+		//i=i+1;
+	//xAutoLock lock(mu);
+	//printf("%d\n",i.get());
 	return 0;
+}
+void testatomic()
+{
+	timeobj Timecost("automic ++ 100");
+	for(int i=0;i<10000;i++)
+	{
+
+	}
 }
 void test()
 {
@@ -37,9 +51,11 @@ void test()
 	for(int i=0;i<Testtimes;i++)
 	{
 		//xAutoLock l(mutex);
-		//xThread myt;
-		mythread[i]mythread[Testtimes].start(Testfunc,"");
-		//printf("%d\n",i);
+		mythread[i].start(Testfunc,"");
+	}
+	for(int i=0;i<Testtimes;i++)
+	{
+		mythread[i].join();
 	}
 }
 int _tmain(int argc, _TCHAR* argv[])
@@ -54,7 +70,12 @@ int _tmain(int argc, _TCHAR* argv[])
 //同时开启 Testtimes个线程，执行 Testfunc里面的内容，
 //如果被调测试的接口函数正常且结果正确，则说明接口是线程安全的
 //调整 Testtimes大小，可以测试程序粒度以及承受能力。
-	test();
+	{
+		timeobj t("thread");
+		test();
+		printf("i=%d\n",i);
+	}
+	//test();
 	system("pause");
 	return 0;
 }
