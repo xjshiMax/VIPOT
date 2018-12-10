@@ -24,9 +24,6 @@
     <ClInclude Include="targetver.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Threadbase.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="testThread.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -34,6 +31,27 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="xAutoLock.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="xAtomicInt32.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="xReactor.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="xsmartPtr.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="xTaskqueue.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="xthreadPool.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="baseclass.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Threadbase.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

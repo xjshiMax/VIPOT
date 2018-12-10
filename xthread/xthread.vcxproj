@@ -78,12 +78,18 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="baseclass.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="testThread.h" />
-    <ClInclude Include="Threadbase.h" />
+    <ClInclude Include="Threadbase.hpp" />
     <ClInclude Include="timebase.hpp" />
+    <ClInclude Include="xAtomicInt32.hpp" />
     <ClInclude Include="xAutoLock.hpp" />
+    <ClInclude Include="xReactor.hpp" />
+    <ClInclude Include="xsmartPtr.hpp" />
+    <ClInclude Include="xTaskqueue.h" />
+    <ClInclude Include="xthreadPool.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
