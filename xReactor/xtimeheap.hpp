@@ -7,7 +7,7 @@
 #include <time.h>
 #endif
 
-#define BUFFER_SIZE 64;
+#define BUFFER_SIZE 64
 
 class xheaptimer;
 struct client_data
@@ -22,14 +22,15 @@ struct client_data
 class xheaptimer
 {
 public:
+	//延时时间，单位秒s.
 	xheaptimer(int delay)
 	{
 		expire = time(NULL)+delay;
 	}
 public:
 	time_t expire;
-	void (*cb_func)(client_data*);
-	client_data* user_data;
+	void (*cb_func)(void*);
+	void* user_data;
 };
 
 //小根堆的实现
@@ -103,7 +104,7 @@ void xtime_heap::percolate_down(int hole)
 	for(;((hole*2+1)<=(m_cur_size-1));hole=child)
 	{
 		child=hole*2+1;
-		if(child<(cur_size-1)&& (array[child+1]->expire < array[child]->expire))
+		if(child<(m_cur_size-1)&& (array[child+1]->expire < array[child]->expire))
 		{
 			child++; //子节点中较小的元素
 		}
@@ -167,6 +168,7 @@ void xtime_heap::del_timer(xheaptimer* timer)
 	}
 	//这里将定时器的相应接口给置为空，还没有从队列删除
 	timer->cb_func == NULL;
+	//pop_timer()
 }
 xheaptimer * xtime_heap::top()const 
 {
@@ -181,9 +183,12 @@ void xtime_heap::pop_timer()
 	if(array[0])
 	{
 		//将最后面的元素放在第一位，然后向下调整小根堆
-		delete array[0];
+		//delete array[0];
+		//在出队列的时候，直接将指针指向别的地方，不做删除。如果是对象，则结束自动释放
+		//如果是new的内存，由外部释放。
 		array[0]=array[--m_cur_size];
 		percolate_down(0);
+		array[m_cur_size]=NULL;
 	}
 }
 void xtime_heap::tick()
@@ -202,6 +207,7 @@ void xtime_heap::tick()
 		{
 			array[0]->cb_func(array[0]->user_data);
 		}
+		//这里不进行pop_timer, 定时器注册以后，可以一直相应，知道Reactor关闭或者用户调用删除定时器
 		pop_timer();
 		temp=array[0];
 	}

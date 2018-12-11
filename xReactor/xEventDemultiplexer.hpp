@@ -3,6 +3,11 @@
 #pragma once
 #include "xbaseclass.hpp"
 #include "xtimeheap.hpp"
+#ifndef WIN32
+#include<sys/epoll.h>
+#include <unistd.h>
+#endif
+#include <errno.h>
 //epoll IO复用实现分离器
 ///
 /*
@@ -17,8 +22,9 @@
 	
 */
 ///
-class xEpollDemultiplexer:xEventDemultiplexer
+class xEpollDemultiplexer:public xEventDemultiplexer
 {
+public:
 	xEpollDemultiplexer();
 	virtual ~xEpollDemultiplexer();
 	virtual int WaitEvents(std::map<handle_t,xEventHandler*>*handlers,
@@ -36,7 +42,7 @@ private:
 xEpollDemultiplexer::xEpollDemultiplexer()
 {
 	m_epoll_fd=::epoll_create(FD_SETSIZE);
-	assert(m_epoll_fd!=-1);
+	//assert(m_epoll_fd!=-1);
 	m_fd_num=0;
 }
 xEpollDemultiplexer::~xEpollDemultiplexer()
@@ -68,7 +74,7 @@ int xEpollDemultiplexer::WaitEvents(std::map<handle_t,xEventHandler*>*handlers, 
 				}
 				if(ep_events[idx].events & EPOLLOUT)
 				{
-					(*handlers[handle])->HandlerWrite();
+					(*handlers)[handle]->HandlerWrite();
 				}
 			}
 		}
@@ -84,7 +90,7 @@ int xEpollDemultiplexer::WaitEvents(std::map<handle_t,xEventHandler*>*handlers, 
 int xEpollDemultiplexer::RequestEvent(handle_t handle,event_t evt)
 {
 	epoll_event ep_event;
-	ep_event.data.fd = hanlde;
+	ep_event.data.fd = handle;
 	ep_event.events = 0;
 	if(evt &xReadEvent ) //	 读事件
 	{

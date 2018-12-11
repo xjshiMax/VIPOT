@@ -24,6 +24,24 @@
     <ClInclude Include="targetver.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="xReactor.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="xEventDemultiplexer.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="xtimeheap.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="xbaseclass.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="reactorServer.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="singleton.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

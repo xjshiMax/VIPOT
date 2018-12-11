@@ -13,13 +13,14 @@ class xReactorImplentation;
 class xReactor
 {
 public:
-	xReactor()
+	xReactor();
+// 	{
+// 		m_reactorimp = new xReactorImplentation();
+// 	}
+	~xReactor();
+	int start() //启动事件循环
 	{
-		m_reactorimp = new xReactorImplentation;
-	}
-	~xReactor()
-	{
-		delete m_reactorimp;
+		HandlerEvents();
 	}
 	//注册事件，事件响应对象和事件类型，读写
 	int RegisterHandler(xEventHandler*handler,event_t event_);
@@ -39,15 +40,17 @@ private:
 class xReactorImplentation
 {
 public:
+	//这里给定定时器最小堆的最大大小为 INITSIZE=100.如果超过会自动resize()
 	xReactorImplentation()
 	{
-		m_demultiplexer = static_cast<xEventDemultiplexer*>(new xEpollDemultiplexer);
+		m_demultiplexer = static_cast<xEventDemultiplexer*>(new xEpollDemultiplexer());
 		m_eventtimer = new xtime_heap(INITSIZE);
 	}
 	~xReactorImplentation()
 	{
 		delete m_demultiplexer;
 	}
+
 	int RegisterHandler(xEventHandler*handler,event_t event_);
 	int RemoveHandler(xEventHandler* handler);
 	void HandlerEvents();
@@ -58,7 +61,15 @@ private:
 	xtime_heap* m_eventtimer;
 };
 
-
+xReactor::xReactor()
+{
+	m_reactorimp = new xReactorImplentation();
+}
+xReactor::~xReactor()
+{
+	if(m_reactorimp!=NULL)
+		delete m_reactorimp;
+}
 int xReactor::RegisterHandler(xEventHandler*handler,event_t event_)
 {
 	return m_reactorimp->RegisterHandler(handler,event_);
@@ -93,19 +104,24 @@ int xReactorImplentation::RemoveHandler(xEventHandler* handler)
 	m_handlers.erase(handle);
 	return m_demultiplexer->UnrequestEvent(handle);
 }
-
+//这里添加事件循环，
+//添加start
 void xReactorImplentation::HandlerEvents()
 {
-	int timeout = 0;
-	if(m_eventtimer->top() ==NULL)
+	while(1)
 	{
-		timeout = 0;
+		int timeout = 0;
+		if(m_eventtimer->top() ==NULL)
+		{
+			timeout = 0;
+		}
+		else
+		{
+			timeout = (m_eventtimer->top()->expire-time(NULL))*1000;
+		}
+		m_demultiplexer->WaitEvents(&m_handlers,timeout,m_eventtimer);
+
 	}
-	else
-	{
-		timeout = (m_eventtimer->top()->expire-time(NULL)*1000);
-	}
-	m_demultiplexer->WaitEvents(&m_handlers,timeout,m_eventtimer);
 }
 int xReactorImplentation::RegisterTimeTask(xheaptimer* timerevent)
 {

@@ -77,8 +77,14 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="reactorServer.hpp" />
+    <ClInclude Include="singleton.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="xbaseclass.hpp" />
+    <ClInclude Include="xEventDemultiplexer.hpp" />
+    <ClInclude Include="xReactor.hpp" />
+    <ClInclude Include="xtimeheap.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
