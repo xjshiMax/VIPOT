@@ -84,6 +84,7 @@
     <ClInclude Include="Threadbase.h" />
     <ClInclude Include="timebase.hpp" />
     <ClInclude Include="xAutoLock.hpp" />
+    <ClInclude Include="xbaseclass.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
