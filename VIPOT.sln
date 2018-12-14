@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mthreadT", "mthreadT\mthrea
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xthread", "xthread\xthread.vcxproj", "{2C60A5CD-68E9-450B-B17C-652C71E930F2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TensorFlow", "TensorFlow\TensorFlow.vcxproj", "{F9D9435F-58DA-4221-BFB7-BDC3E266C637}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -37,6 +39,10 @@ Global
 		{2C60A5CD-68E9-450B-B17C-652C71E930F2}.Debug|Win32.Build.0 = Debug|Win32
 		{2C60A5CD-68E9-450B-B17C-652C71E930F2}.Release|Win32.ActiveCfg = Release|Win32
 		{2C60A5CD-68E9-450B-B17C-652C71E930F2}.Release|Win32.Build.0 = Release|Win32
+		{F9D9435F-58DA-4221-BFB7-BDC3E266C637}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F9D9435F-58DA-4221-BFB7-BDC3E266C637}.Debug|Win32.Build.0 = Debug|Win32
+		{F9D9435F-58DA-4221-BFB7-BDC3E266C637}.Release|Win32.ActiveCfg = Release|Win32
+		{F9D9435F-58DA-4221-BFB7-BDC3E266C637}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

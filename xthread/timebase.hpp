@@ -27,6 +27,7 @@ public:
 	}
 	LONGLONG startcount()
 	{
+#ifdef WIN32
 		GetSystemTimeAsFileTime((LPFILETIME)&m_starttime);
 		return m_starttime; 
 	}

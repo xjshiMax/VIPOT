@@ -48,10 +48,16 @@
     <ClInclude Include="xthreadPool.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="baseclass.hpp">
+    <ClInclude Include="xdatetime.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Threadbase.hpp">
+    <ClInclude Include="xHelpstring.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="xlog.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="basesock.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
